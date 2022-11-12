@@ -40,3 +40,4 @@ build/
 
 ## Front
 /node_modules/
+/.idea/
