@@ -12,7 +12,7 @@ import java.sql.Connection;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/*Context.xml"})
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/*-context.xml"})
 public class DBTest {
 
     @Autowired

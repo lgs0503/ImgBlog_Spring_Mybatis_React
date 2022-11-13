@@ -4,9 +4,11 @@
 
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
+    <!-- 설정파일 위치 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
+        <param-value>/WEB-INF/spring/*-context.xml</param-value>
+        <!--<param-value>/WEB-INF/applicationContext.xml</param-value>-->
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
