@@ -7,7 +7,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const login = () => {
+    const login = async () => {
         console.log({
             userId,
             password
@@ -17,22 +17,18 @@ function Login() {
 
         if(validationChk()){
 
-            axios.post('http://localhost:8080/login', {
+            const result = await axios.post('http://localhost:8080/login', {
                 userId,
                 password
-            })
-                .then((result)=>{
-                    console.log(result.data.count)
-                    if (result.data.count > 0) {
-                        navigate('/')
-                    } else {
-                        window.alert('아이디와 패스워드를 확인해주세요')
-                    }
-                }).catch((Error)=>{
-                console.log(Error)
             });
 
+            console.log(result.data.loginResult);
 
+            if (result.data.loginResult === true) {
+                navigate('/')
+            } else {
+                window.alert('아이디와 패스워드를 확인해주세요')
+            }
 
         }
     }
@@ -51,6 +47,10 @@ function Login() {
         return true;
     }
 
+    const registerView = () => {
+        navigate('/register');
+    }
+
     return (
         <div className="Login">
             <div>
@@ -64,6 +64,7 @@ function Login() {
                 </div>
                 <div>
                     <button onClick={() => login()}>로그인</button>
+                    <button onClick={() => registerView()}>회원가입</button>
                 </div>
             </div>
         </div>
