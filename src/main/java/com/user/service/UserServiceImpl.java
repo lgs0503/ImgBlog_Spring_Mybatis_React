@@ -5,6 +5,7 @@ import com.user.vo.UserVo;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -14,20 +15,38 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public int login(UserVo userVo) {
+    public boolean login(UserVo userVo) {
 
-        int result = 0;
+        UserVo result = new UserVo();
+        boolean passwordMatRes = false;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
             UserMapper mapper = session.getMapper(UserMapper.class);
 
             result = mapper.login(userVo);
+
+            passwordMatRes = passwordEncoder.matches(result.getPassword(), userVo.getPassword());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return result;
+        return passwordMatRes;
+    }
+
+    @Override
+    public void register(UserVo userVo) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            UserMapper mapper = session.getMapper(UserMapper.class);
+
+            userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
+            mapper.register(userVo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

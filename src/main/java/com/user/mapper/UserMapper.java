@@ -7,5 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    public int login(UserVo userVo);
+    public UserVo login(UserVo userVo);
+
+    public void register(UserVo userVo);
 }

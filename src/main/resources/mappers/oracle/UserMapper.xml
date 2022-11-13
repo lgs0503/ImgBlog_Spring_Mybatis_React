@@ -2,11 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.user.mapper.UserMapper">
 
-    <select id="login" resultType="int" parameterType="com.user.vo.UserVo" >
-        SELECT  COUNT(*)
+    <select id="login" resultType="com.user.vo.UserVo" parameterType="com.user.vo.UserVo" >
+        SELECT  PASSWORD AS password
         FROM    USER_INFO
         WHERE   USER_ID = #{userId}
-        AND     PASSWORD = #{password}
     </select>
 
+    <insert id="register" parameterType="com.user.vo.UserVo">
+        INSERT
+        INTO    USER_INFO
+        (
+            USER_ID
+        ,   PASSWORD
+        ,   USER_NAME
+        ,   GENDER
+        ,   EMAIL
+        ,   LOCATION
+        ,   LOCATION_DTL
+        ,   PHONE_NUM
+        ,   BIRTHDAY
+        ,   IMAGE_FILE_NO
+        ,   DELETED
+        ,   USER_RULE
+        ,   CREATE_DATE
+        ,   CREATE_USER
+        ,   UPDATE_DATE
+        ,   UPDATE_USER
+        )
+        VALUES
+        (
+            #{userId}
+        ,   #{password}
+        ,   #{name}
+        ,   #{gender}
+        ,   #{email}
+        ,   #{location}
+        ,   #{locationDtl}
+        ,   #{phoneNum}
+        ,   #{birthday}
+        ,   NULL
+        ,   '0'
+        ,   '1'
+        ,   TO_CHAR(SYSDATE, 'YYYYMMDD')
+        ,   'SYSTEM'
+        ,   TO_CHAR(SYSDATE, 'YYYYMMDD')
+        ,   'SYSTEM'
+        )
+    </insert>
 </mapper>

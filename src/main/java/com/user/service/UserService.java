@@ -3,5 +3,7 @@ package com.user.service;
 import com.user.vo.UserVo;
 
 public interface UserService {
-    int login(UserVo userVo);
+    boolean login(UserVo userVo);
+
+    void register(UserVo userVo);
 }

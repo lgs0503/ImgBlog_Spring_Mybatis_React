@@ -17,6 +17,7 @@ public class UserVo {
     private String location;
     private String locationDtl;
     private String imageFileNo;
+    private String phoneNum;
     private String deleted;
     private String createDate;
     private String updateDate;
