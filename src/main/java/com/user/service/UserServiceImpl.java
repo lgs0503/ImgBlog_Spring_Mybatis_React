@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
             result = mapper.login(userVo);
 
-            passwordMatRes = passwordEncoder.matches(result.getPassword(), userVo.getPassword());
+            passwordMatRes = passwordEncoder.matches(userVo.getPassword(), result.getPassword());
 
         } catch (Exception e) {
             e.printStackTrace();

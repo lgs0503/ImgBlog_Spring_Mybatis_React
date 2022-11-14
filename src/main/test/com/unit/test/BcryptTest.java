@@ -1,5 +1,7 @@
 package com.unit.test;
 
+import com.user.service.UserService;
+import com.user.vo.UserVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/*-context.xml"})
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/*-context.xml", "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class BcryptTest {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserService userService;
 
     @Test
     public void bcryptTest() {
@@ -40,4 +45,15 @@ public class BcryptTest {
         }
     }
 
+    @Test
+    public void passwordChk() {
+
+        boolean passwordMatRes = false;
+        UserVo userVo = new UserVo();
+        userVo.setUserId("lgs0503");
+        userVo.setPassword("123123");
+
+        passwordMatRes = userService.login(userVo);
+        System.out.println("loginResult : " + passwordMatRes);
+    }
 }
