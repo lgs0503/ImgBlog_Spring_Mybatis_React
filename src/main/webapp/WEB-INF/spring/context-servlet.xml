@@ -4,12 +4,16 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- CORS 설정 외부URL 요청 (프론트)-->
     <mvc:cors>
         <mvc:mapping path="/**" allowed-origins="*"/>
     </mvc:cors>
 
-    <mvc:annotation-driven/> <!-- Annotation 활성화 -->
-    <context:component-scan base-package="com"/> <!-- Component Package 지정 -->
+    <!-- Annotation 활성화 -->
+    <mvc:annotation-driven/>
+
+    <!-- Component Package 지정 -->
+    <context:component-scan base-package="com"/>
 
     <!-- View Resolver 세팅 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
