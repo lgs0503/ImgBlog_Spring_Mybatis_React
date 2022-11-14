@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean login(UserVo userVo) {
 
-        UserVo result = new UserVo();
+        UserVo result;
         boolean passwordMatRes = false;
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
