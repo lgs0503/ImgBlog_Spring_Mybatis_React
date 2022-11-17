@@ -1,7 +1,5 @@
 package com.unit.test;
 
-import com.user.service.UserService;
-import com.user.vo.UserVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

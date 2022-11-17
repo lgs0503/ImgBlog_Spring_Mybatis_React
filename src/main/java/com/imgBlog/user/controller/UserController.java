@@ -1,9 +1,8 @@
-package com.user.controller;
+package com.imgBlog.user.controller;
 
-import com.user.service.UserService;
-import com.user.vo.UserVo;
+import com.imgBlog.user.service.UserService;
+import com.imgBlog.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +36,6 @@ public class UserController {
         Map<String, Object> result = new HashMap<String, Object>();
 
         userService.register(userVo);
-
-        result.put("msg", "200");
 
         return result;
     }

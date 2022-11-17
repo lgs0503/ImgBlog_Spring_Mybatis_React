@@ -1,6 +1,6 @@
-package com.user.mapper;
+package com.imgBlog.user.mapper;
 
-import com.user.vo.UserVo;
+import com.imgBlog.user.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 
 

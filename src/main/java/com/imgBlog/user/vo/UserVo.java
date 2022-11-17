@@ -1,4 +1,4 @@
-package com.user.vo;
+package com.imgBlog.user.vo;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package com.user.service;
+package com.imgBlog.user.service;
 
-import com.user.vo.UserVo;
+import com.imgBlog.user.vo.UserVo;
 
 public interface UserService {
     boolean login(UserVo userVo);

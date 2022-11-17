@@ -1,7 +1,7 @@
-package com.user.service;
+package com.imgBlog.user.service;
 
-import com.user.mapper.UserMapper;
-import com.user.vo.UserVo;
+import com.imgBlog.user.mapper.UserMapper;
+import com.imgBlog.user.vo.UserVo;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
