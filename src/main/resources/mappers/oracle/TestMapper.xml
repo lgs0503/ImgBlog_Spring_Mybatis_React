@@ -11,4 +11,28 @@
         FROM	TEST
     </select>
 
+    <select id="oracleStudy1" resultType="java.util.HashMap">
+        SELECT
+            ENAME,
+            HIREDATE,
+            DEPTNO
+        FROM    EMP
+        WHERE   EMPNO = 7499
+    </select>
+
+    <select id="oracleStudy2" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+            *
+        FROM    EMP
+        WHERE   ENAME = #{ename}
+    </select>
+
+    <select id="oracleStudy3" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT
+            ENAME,
+            SAL,
+            DEPTNO
+        FROM    EMP
+        WHERE   TO_CHAR(HIREDATE , 'YYYYMMDD') BETWEEN #{startDate} AND #{endDate}
+    </select>
 </mapper>
