@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imgBlog.comm.code.mapper.CodeMapper">
+
+    <select id="getCodeList" parameterType="com.imgBlog.comm.code.vo.CodeVO" resultType="java.util.HashMap" >
+        SELECT
+            CODE_ID,
+            CODE_NAME,
+            UPPER_CODE_ID,
+            CODE_VALUE,
+            USE_YN,
+            DELETED,
+            CODE_INFO,
+            CREATE_USER,
+            CREATE_DATE,
+            UPDATE_USER,
+            UPDATE_DATE
+        FROM CODE
+        START WITH CODE_ID = 'CODE'
+        CONNECT BY PRIOR CODE_ID = UPPER_CODE_ID
+        ORDER SIBLINGS BY CODE_ID
+    </select>
+
+    <select id="getCodeListCount" parameterType="com.imgBlog.comm.code.vo.CodeVO" resultType="String">
+        SELECT COUNT(*) AS COUNT
+        FROM CODE
+    </select>
+
+    <select id="getCode" parameterType="com.imgBlog.comm.code.vo.CodeVO" resultType="java.util.HashMap">
+        SELECT
+            CODE_ID,
+            CODE_NAME,
+            UPPER_CODE_ID,
+            CODE_VALUE,
+            USE_YN,
+            DELETED,
+            CODE_INFO,
+            CREATE_USER,
+            CREATE_DATE,
+            UPDATE_USER,
+            UPDATE_DATE
+        FROM CODE
+        WHERE CODE_ID = #{codeId}
+    </select>
+
+    <insert id="insertCode" parameterType="com.imgBlog.comm.code.vo.CodeVO">
+        INSERT
+        INTO    CODE
+        (
+            CODE_ID,
+            CODE_NAME,
+            UPPER_CODE_ID,
+            CODE_VALUE,
+            USE_YN,
+            DELETED,
+            CODE_INFO,
+            CREATE_USER,
+            CREATE_DATE,
+            UPDATE_USER,
+            UPDATE_DATE
+        )
+        VALUES
+        (
+            #{codeId},
+            #{codeName},
+            #{upperCodeName},
+            #{codeValue},
+            #{useYn},
+            #{deleted},
+            #{codeInfo},
+            #{createUser},
+            #{createDate},
+            #{updateUser},
+            #{updateDate}
+        )
+    </insert>
+
+    <update id="updateCode" parameterType="com.imgBlog.comm.code.vo.CodeVO">
+        UPDATE  CODE
+        SET     CODE_NAME = #{codeName},
+                UPPER_CODE_ID = #{upperCodeId},
+                CODE_VALUE = #{codeValue},
+                USE_YN = #{useYn},
+                DELETED = #{deleted},
+                CODE_INFO = #{codeInfo},
+                CREATE_USER = #{createUser},
+                CREATE_DATE = #{createDate},
+                UPDATE_USER = #{updateUser},
+                UPDATE_DATE = #{updateDate}
+        WHERE   CODE_ID = #{codeId}
+    </update>
+
+    <delete id="deleteCode" parameterType="com.imgBlog.comm.code.vo.CodeVO">
+        DELETE
+        FROM    CODE
+        WHERE   CODE_ID = #{codeId}
+    </delete>
+</mapper>
