@@ -17,7 +17,7 @@ public class CodeController {
     @Autowired
     CodeService codeService;
 
-    static final String KEYWORD = "code";
+    static final String CONTEXT = "code";
 
     @RequestMapping(value = "/getCodeList", method = RequestMethod.GET)
     @ResponseBody
@@ -27,8 +27,8 @@ public class CodeController {
 
         try {
             Map<String, Object> result = new HashMap<String, Object>();
-            result.put(KEYWORD + "List", codeService.getCodeList(code));
-            result.put(KEYWORD + "ListCount", codeService.getCodeListCount(code));
+            result.put(CONTEXT + "List", codeService.getCodeList(code));
+            result.put(CONTEXT + "ListCount", codeService.getCodeListCount(code));
 
             responseMessage.putData(result);
         } catch (Exception e) {
@@ -41,13 +41,13 @@ public class CodeController {
 
     @RequestMapping(value = "/getCode", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessage getCode(@RequestBody CodeVO code) throws Exception{
+    public ResponseMessage getCode(@RequestBody CodeVO code){
 
         ResponseMessage responseMessage = new ResponseMessage();
 
         try {
             Map<String, Object> result = new HashMap<String, Object>();
-            result.put(KEYWORD, codeService.getCode(code));
+            result.put(CONTEXT, codeService.getCode(code));
 
             responseMessage.putData(result);
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class CodeController {
 
     @RequestMapping(value = "/insertCode", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> insertCode(@RequestBody CodeVO code) throws Exception{
+    public ResponseMessage insertCode(@RequestBody CodeVO code){
 
         ResponseMessage responseMessage = new ResponseMessage();
 
@@ -76,7 +76,7 @@ public class CodeController {
 
     @RequestMapping(value = "/updateCode", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateCode(@RequestBody CodeVO code) throws Exception{
+    public ResponseMessage updateCode(@RequestBody CodeVO code){
 
         ResponseMessage responseMessage = new ResponseMessage();
 
@@ -92,7 +92,7 @@ public class CodeController {
 
     @RequestMapping(value = "/deleteCode", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> deleteCode(@RequestBody CodeVO code) throws Exception{
+    public ResponseMessage deleteCode(@RequestBody CodeVO code){
 
         ResponseMessage responseMessage = new ResponseMessage();
 
