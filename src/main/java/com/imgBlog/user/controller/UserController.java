@@ -1,5 +1,7 @@
 package com.imgBlog.user.controller;
 
+import com.imgBlog.comm.util.ResponseMessage;
+import com.imgBlog.comm.util.ResponseStatus;
 import com.imgBlog.user.service.UserService;
 import com.imgBlog.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +22,49 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> login(@RequestBody UserVo userVo){
+    public ResponseMessage login(@RequestBody UserVo userVo){
 
-        Map<String, Object> result = new HashMap<String, Object>();
+        ResponseMessage responseMessage = new ResponseMessage();
 
-        result.put("loginResult", userService.login(userVo));
+        try {
+            responseMessage.putData(userService.login(userVo));
+        } catch (Exception e){
+            responseMessage.putStatus(ResponseStatus.NOT_FOUND.status());
+            responseMessage.putErrorMessage(e.getMessage());
+        }
 
-        return result;
+        return responseMessage;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> register(@RequestBody UserVo userVo){
+    public ResponseMessage register(@RequestBody UserVo userVo){
 
-        Map<String, Object> result = new HashMap<String, Object>();
+        ResponseMessage responseMessage = new ResponseMessage();
 
-        userService.register(userVo);
+        try {
+            userService.register(userVo);
+        } catch (Exception e){
+            responseMessage.putStatus(ResponseStatus.NOT_FOUND.status());
+            responseMessage.putErrorMessage(e.getMessage());
+        }
 
-        return result;
+        return responseMessage;
+    }
+
+    @RequestMapping(value = "/IdDuplicateCheck", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage IdDuplicateCheck(@RequestBody UserVo userVo){
+
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        try {
+            responseMessage.putData(userService.IdDuplicateCheck(userVo));
+        } catch (Exception e){
+            responseMessage.putStatus(ResponseStatus.NOT_FOUND.status());
+            responseMessage.putErrorMessage(e.getMessage());
+        }
+
+        return responseMessage;
     }
 }

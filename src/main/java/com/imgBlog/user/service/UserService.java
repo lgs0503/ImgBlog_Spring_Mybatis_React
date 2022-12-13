@@ -6,4 +6,6 @@ public interface UserService {
     boolean login(UserVo userVo);
 
     void register(UserVo userVo);
+
+    boolean IdDuplicateCheck(UserVo userVo);
 }

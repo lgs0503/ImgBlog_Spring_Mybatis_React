@@ -49,4 +49,11 @@
         ,   'SYSTEM'
         )
     </insert>
+
+    <select id="IdDuplicateCheck" resultType="boolean" parameterType="com.imgBlog.user.vo.UserVo">
+        SELECT  CASE WHEN COUNT(*) > 0 THEN 1
+                     ELSE 0 END AS PW_CHK_RES
+        FROM    USER_INFO
+        WHERE   USER_ID = #{userId}
+    </select>
 </mapper>

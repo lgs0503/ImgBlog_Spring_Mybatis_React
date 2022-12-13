@@ -20,33 +20,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean login(UserVo userVo) {
-
         UserVo result;
-        boolean passwordMatRes = false;
+        boolean passwordMatchResult = false;
 
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper mapper = session.getMapper(UserMapper.class);
+        SqlSession session = sqlSessionFactory.openSession();
+        UserMapper mapper = session.getMapper(UserMapper.class);
 
-            result = mapper.login(userVo);
+        result = mapper.login(userVo);
+        passwordMatchResult = passwordEncoder.matches(userVo.getPassword(), result.getPassword());
 
-            passwordMatRes = passwordEncoder.matches(userVo.getPassword(), result.getPassword());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return passwordMatRes;
+        return passwordMatchResult;
     }
 
     @Override
     public void register(UserVo userVo) {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper mapper = session.getMapper(UserMapper.class);
+        SqlSession session = sqlSessionFactory.openSession();
+        UserMapper mapper = session.getMapper(UserMapper.class);
 
-            userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
-            mapper.register(userVo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        userVo.setPassword(passwordEncoder.encode(userVo.getPassword()));
+        mapper.register(userVo);
+    }
+
+    @Override
+    public boolean IdDuplicateCheck(UserVo userVo) {
+        boolean passwordMatResult = false;
+
+        SqlSession session = sqlSessionFactory.openSession();
+        UserMapper mapper = session.getMapper(UserMapper.class);
+
+        passwordMatResult = mapper.IdDuplicateCheck(userVo);
+
+        return passwordMatResult;
     }
 }
