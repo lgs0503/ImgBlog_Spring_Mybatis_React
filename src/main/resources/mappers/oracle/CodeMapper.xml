@@ -4,13 +4,13 @@
 
     <sql id="codeCondition">
         <where>
-            <if test="@com.imgBlog.comm.util.CommonUtil.notEmpty(codeId)">
+            <if test="@com.imgBlog.comm.util.CommonUtil@notEmpty(codeId)">
                 AND CODE_ID = #{codeId}
             </if>
-            <if test="@com.imgBlog.comm.util.CommonUtil.notEmpty(codeName)">
+            <if test="@com.imgBlog.comm.util.CommonUtil@notEmpty(codeName)">
                 AND CODE_ID = #{codeName}
             </if>
-            <if test="@com.imgBlog.comm.util.CommonUtil.notEmpty(upperCodeName)">
+            <if test="@com.imgBlog.comm.util.CommonUtil@notEmpty(upperCodeName)">
                 AND CODE_ID = #{upperCodeName}
             </if>
         </where>
@@ -26,9 +26,9 @@
             DELETED,
             CODE_INFO,
             CREATE_USER,
-            TO_CHAR(CREATE_DATE, 'YYYYMMDD'),
+            TO_CHAR(CREATE_DATE, 'YYYYMMDD') AS CREATE_DATE,
             UPDATE_USER,
-            TO_CHAR(UPDATE_DATE, 'YYYYMMDD')
+            TO_CHAR(UPDATE_DATE, 'YYYYMMDD') AS UPDATE_DATE
         FROM CODE
         <include refid="codeCondition"/>
         START WITH CODE_ID = 'CODE'
