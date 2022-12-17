@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.mapper.BoardMapper">
+
+    <select id="getBoardList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            POST_TITLE,
+            CREATE_USER,
+            TO_CHAR(CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE
+        FROM POST
+        WHERE 1=1
+        <if test="title != null and title != ''">
+            AND POST_TITLE LIKE '%' || #{title} || '%'
+        </if>
+        <if test="userName != null and userName != ''">
+            AND CREATE_USER  LIKE '%' || #{userName} || '%'
+        </if>
+        ORDER BY TO_NUMBER(POST_ID) DESC
+    </select>
+
+    <insert id="addBoard" parameterType="java.util.HashMap">
+        INSERT
+        INTO    POST
+        (
+            BOARD_ID,
+            POST_ID,
+            POST_TYPE,
+            POST_TITLE,
+            POST_CONTENT,
+            VIEW_CNT,
+            DELETED,
+            FILE_NO1,
+            FILE_NO2,
+            CREATE_DATE,
+            CREATE_USER,
+            UPDATE_DATE,
+            UPDATE_USER
+        )
+        VALUES
+        (
+            '5',
+            (
+                SELECT
+                    NVL(MAX(TO_NUMBER(POST_ID)),1)+1
+                FROM POST
+            ),
+            '1',
+            #{title},
+            #{content},
+            '0',
+            NULL,
+            NULL,
+            NULL,
+            TO_CHAR(SYSDATE,'YYYY-MM-DD'),
+            #{userName},
+            TO_CHAR(SYSDATE,'YYYY-MM-DD'),
+            #{userName}
+       )
+    </insert>
+</mapper>
