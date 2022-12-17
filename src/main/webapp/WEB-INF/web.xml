@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE web-app PUBLIC
         "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
@@ -6,18 +7,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-    <display-name>Archetype Created Web Application</display-name>
-    <!-- 설정파일 위치 -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/*.xml</param-value>
-        <!--<param-value>/WEB-INF/applicationContext.xml</param-value>-->
-    </context-param>
+    <display-name>imgBlog</display-name>
+    <description>Spring Study</description>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!-- Dispatcher Servlet -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -32,7 +29,13 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- 한글 인코딩 Start -->
+    <!-- 추가적 xml 설정파일 위치 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring/*.xml</param-value>
+        <!--<param-value>/WEB-INF/applicationContext.xml</param-value>-->
+    </context-param>
+
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>
@@ -47,9 +50,14 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
+
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!-- 한글 인코딩 End -->
+
+    <!-- Session 유효시간 설정 -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
