@@ -25,6 +25,14 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public Map<String, Object> getBoard(Map<String, Object> param) {
+        SqlSession session = sqlSessionFactory.openSession();
+        BoardMapper mapper = session.getMapper(BoardMapper.class);
+
+        return mapper.getBoard(param);
+    }
+
+    @Override
     public void addBoard(Map<String, Object> param) {
         SqlSession session = sqlSessionFactory.openSession();
         BoardMapper mapper = session.getMapper(BoardMapper.class);
@@ -33,4 +41,12 @@ public class BoardServiceImpl implements BoardService{
 
     }
 
+    @Override
+    public void deleteBoard(Map<String, Object> param) {
+        SqlSession session = sqlSessionFactory.openSession();
+        BoardMapper mapper = session.getMapper(BoardMapper.class);
+
+        mapper.deleteBoard(param);
+
+    }
 }

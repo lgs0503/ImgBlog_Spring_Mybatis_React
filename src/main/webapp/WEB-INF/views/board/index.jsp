@@ -23,6 +23,11 @@
     .board-form{
         padding : 0px 20px;
     }
+    .table-row:hover{
+        background-color: white;
+        color: black;
+        cursor: pointer;
+    }
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
@@ -33,6 +38,9 @@
     }
     function boardAdd(){
         location.href = "/addBoardView";
+    }
+    function boardDetail(index){
+        location.href = "/detailBoardView?index=" + index;
     }
 </script>
 <body>
@@ -70,7 +78,7 @@
                         </c:if>
                         <c:if test="${!empty boardList}">
                             <c:forEach var="board" items="${boardList}" varStatus="varStatus">
-                                <tr>
+                                <tr class="table-row" onclick="boardDetail(${board.POST_ID});">
                                     <td>${varStatus.index + 1}</td>
                                     <td>${board.POST_TITLE}</td>
                                     <td>${board.CREATE_USER}</td>

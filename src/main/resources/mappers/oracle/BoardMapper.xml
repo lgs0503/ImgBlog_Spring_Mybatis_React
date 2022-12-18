@@ -4,6 +4,7 @@
 
     <select id="getBoardList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT
+            POST_ID,
             POST_TITLE,
             CREATE_USER,
             TO_CHAR(CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE
@@ -16,6 +17,17 @@
             AND CREATE_USER  LIKE '%' || #{userName} || '%'
         </if>
         ORDER BY TO_NUMBER(POST_ID) DESC
+    </select>
+
+    <select id="getBoard" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+            POST_ID,
+            POST_TITLE,
+            TO_CHAR(POST_CONTENT) AS POST_CONTENT,
+            CREATE_USER,
+            TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS CREATE_DATE
+        FROM POST
+        WHERE POST_ID = #{index}
     </select>
 
     <insert id="addBoard" parameterType="java.util.HashMap">
@@ -57,4 +69,10 @@
             #{userName}
        )
     </insert>
+
+    <delete id="deleteBoard" parameterType="java.util.HashMap">
+        DELETE
+        FROM    POST
+        WHERE   POST_ID = #{postId}
+    </delete>
 </mapper>

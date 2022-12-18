@@ -14,6 +14,16 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!-- 추가적 xml 설정파일 위치 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/spring/datasource-context.xml,
+            /WEB-INF/spring/properties-context.xml,
+            /WEB-INF/spring/security-context.xml
+        </param-value>
+    </context-param>
+
     <!-- Dispatcher Servlet -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -29,13 +39,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- 추가적 xml 설정파일 위치 -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/*.xml</param-value>
-        <!--<param-value>/WEB-INF/applicationContext.xml</param-value>-->
-    </context-param>
-
+    <!-- filter -->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>
