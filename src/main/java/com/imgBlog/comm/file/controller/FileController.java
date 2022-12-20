@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +37,9 @@ public class FileController {
 
     /**
      *  파일 업로드
-     * @param request 업로드 파일 정보를 담은 request
-     * @return ModelAndView 업로드 파일 정보 및 업로드 성공여부
      */
     @Transactional
-    @RequestMapping(value="/file/upload", method= RequestMethod.POST)
+    @RequestMapping(value="/fileUpload", method= RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> fileUpload(MultipartHttpServletRequest request){
 
@@ -46,45 +48,29 @@ public class FileController {
         try {
             List<MultipartFile> fileList = request.getFiles("file");
 
-            /* 경로 폴더 없을 경우 생성 */
+            /** 경로 폴더 없을 경우 생성 **/
             CommonUtil.makeDirectories(uploadPath);
 
-            long time = System.currentTimeMillis();
 
-            /* 업로드 완료된 파일정보 를 담을 리스트 객체 */
+            /** 업로드 완료된 파일정보 를 담을 리스트 객체 **/
             List<Map<String, Object>> uploadList = new ArrayList<Map<String, Object>>();
 
-            /* 여러개 파일을 한번에 업로드 하기위해 반복 진행 */
+            /** 여러개 파일을 한번에 업로드 하기위해 반복 진행 **/
             for (MultipartFile mf : fileList) {
 
-                Map<String, Object> fileMap = new HashMap<String, Object>();
+                /** 업로드 파일 정보 DB 저장 **/
+                Map<String, Object> fileMap = saveFile(mf);
 
-                String originFileName = mf.getOriginalFilename();
-                String fileExten = originFileName.substring(originFileName.lastIndexOf(".") + 1);
-                String fileName = originFileName.replace(fileExten,"").replace(".","");
+                String uploadFileName = (String) CommonUtil.notValue(fileMap.get("saveFileName"), "")
+                        + "." + (String) CommonUtil.notValue(fileMap.get("fileExten"), "");
 
-                String saveFileName = String.format("%d_%s", time, fileName);
-
-                /* DB FILE TABLE 저장 */
-                fileMap.put("filePath", uploadPath);
-                fileMap.put("fileName", fileName);
-                fileMap.put("filePhysicalName", saveFileName);
-                fileMap.put("fileSize", mf.getSize());
-                fileMap.put("fileExten", fileExten);
-
-                fileService.insertFile(fileMap);
-
-                /* 파일 생성 */
-                try {
-                    mf.transferTo(new File(uploadPath, saveFileName + '.' + fileExten));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                /** 파일 생성 **/
+                createFile(mf, uploadFileName);
 
                 uploadList.add(fileMap);
             }
 
-            /* 업로드 완료된 파일정보들 반환 */
+            /** 업로드 완료된 파일정보들 반환 **/
             result.put("uploadList", uploadList);
 
         } catch (Exception e){
@@ -94,4 +80,132 @@ public class FileController {
         return result;
     }
 
+    private Map<String, Object> saveFile(MultipartFile mf) {
+
+        Map<String, Object> fileMap = new HashMap<String, Object>();
+
+        try {
+            long time = System.currentTimeMillis();
+
+            String originFileName = mf.getOriginalFilename();
+            String fileExten = originFileName.substring(originFileName.lastIndexOf(".") + 1);
+            String fileName = originFileName.replace(fileExten,"").replace(".","");
+
+            String saveFileName = String.format("%d_%s", time, fileName);
+
+            /** DB FILE TABLE 저장 **/
+            fileMap.put("filePath", uploadPath);
+            fileMap.put("fileName", fileName);
+            fileMap.put("filePhysicalName", saveFileName);
+            fileMap.put("fileSize", mf.getSize());
+            fileMap.put("fileExten", fileExten);
+
+            fileService.insertFile(fileMap);
+
+        } catch (Exception e) {
+            log.error("saveFile Exception", e);
+        }
+        return fileMap;
+    }
+
+    private void createFile(MultipartFile mf, String uploadFileName){
+        try {
+            mf.transferTo(new File(uploadPath, uploadFileName));
+        } catch (Exception e) {
+            log.error("createFile Exception", e);
+        }
+    }
+
+    /**
+     *  파일 다운로드
+     */
+    @RequestMapping(value="/fileDownload", method= RequestMethod.GET)
+    public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        try {
+
+            /** 파일 번호로 상세 정보 조회 **/
+            String fileNo = request.getParameter("fileNo");
+
+            Map<String, Object> fileMap = new HashMap<String, Object>();
+            fileMap.put("fileNo", fileNo);
+
+            Map<String, Object> fileResult = fileService.getFile(fileMap);
+
+            String filePhysicalName = (String) CommonUtil.notValue(fileResult.get("filePhysicalName"), "");
+            String fileExten = (String) CommonUtil.notValue(fileResult.get("fileExten"), "");
+            String fileName = (String) CommonUtil.notValue(fileResult.get("fileName"), "");
+            String fileNameExten = fileName + '.' + fileExten;
+
+            /** 헤더설정 - 한국어 파일명 **/
+            setKoreanHeader(request, response, fileNameExten);
+
+            /** 업로드 경로 + 파일명 + 파일확장자 **/
+            String path = uploadPath + "/" + filePhysicalName + '.' + fileExten;
+
+            File file = new File(path);
+
+            /** 파일다운로드 **/
+            FileDownload(response, file);
+        } catch (Exception e) {
+            log.error("fileDownload Exception", e);
+        }
+    }
+
+    private void setKoreanHeader(HttpServletRequest request, HttpServletResponse response, String fileNameExten){
+
+        try {
+            String header = request.getHeader("User-Agent");
+
+            if (header.contains("MSIE") || header.contains("Trident")) {
+                fileNameExten = URLEncoder.encode(fileNameExten,"UTF-8").replaceAll("\\+", "%20");
+                response.setHeader("Content-Disposition", "attachment;filename=" + fileNameExten + ";");
+            } else {
+                fileNameExten = new String(fileNameExten.getBytes("UTF-8"), "ISO-8859-1");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + fileNameExten + "\"");
+            }
+        } catch(Exception e) {
+            log.error("setKoreanHeader Exception", e);
+        }
+    }
+
+    private void FileDownload(HttpServletResponse response, File file){
+
+        try {
+            setDownloadResponse(response, file);
+
+            // 파일 읽어오기
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            OutputStream out = response.getOutputStream();
+
+            //1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+            int read = 0;
+            byte[] buffer = new byte[1024];
+
+            while ((read = fileInputStream.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+
+            response.flushBuffer();
+            fileInputStream.close();
+        } catch (Exception e){
+            log.error("FileDownload Exception", e);
+        }
+    }
+
+    private void setDownloadResponse(HttpServletResponse response, File file){
+
+        try {
+            int bytes = (int)file.length();
+
+            response.setContentType( "application/download; UTF-8" );
+            response.setContentLength(bytes);
+            response.setHeader("Content-Type", "application/octet-stream");
+            response.setHeader("Content-Transfer-Encoding", "binary;");
+            response.setHeader("Pragma", "no-cache;");
+            response.setHeader("Expires", "-1;");
+        } catch(Exception e){
+            log.error("setDownloadResponse Exception", e);
+        }
+    }
 }
