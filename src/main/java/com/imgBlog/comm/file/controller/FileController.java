@@ -29,6 +29,9 @@ public class FileController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    private final int FILE_WRITE_ERROR = -1;
+    private final int FILE_MAX_BYTE = 1024;
+
     @Autowired
     String uploadPath;
 
@@ -50,7 +53,6 @@ public class FileController {
 
             /** 경로 폴더 없을 경우 생성 **/
             CommonUtil.makeDirectories(uploadPath);
-
 
             /** 업로드 완료된 파일정보 를 담을 리스트 객체 **/
             List<Map<String, Object>> uploadList = new ArrayList<Map<String, Object>>();
@@ -171,18 +173,19 @@ public class FileController {
     private void FileDownload(HttpServletResponse response, File file){
 
         try {
+            /** Response Download로 설정 **/
             setDownloadResponse(response, file);
 
-            // 파일 읽어오기
+            /** 파일 읽어오기 **/
             FileInputStream fileInputStream = new FileInputStream(file);
 
             OutputStream out = response.getOutputStream();
 
-            //1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+            /** 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음 **/
             int read = 0;
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[FILE_MAX_BYTE];
 
-            while ((read = fileInputStream.read(buffer)) != -1) {
+            while ((read = fileInputStream.read(buffer)) != FILE_WRITE_ERROR) {
                 out.write(buffer, 0, read);
             }
 
