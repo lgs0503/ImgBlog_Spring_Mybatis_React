@@ -19,4 +19,16 @@
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!-- 파일업로드 설정 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--  파일업로드 용량 (10MB)-->
+        <property name="maxUploadSize" value="${file.uploadMaxSize}"/>
+        <property name="defaultEncoding" value="${file.encoding}" />
+    </bean>
+
+    <!--  파일업로드 디렉토리 설정 -->
+    <bean id="uploadPath" class="java.lang.String">
+        <constructor-arg value="${file.uploadPath}"/>
+    </bean>
 </beans>
