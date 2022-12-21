@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -82,6 +84,9 @@ public class FileController {
         return result;
     }
 
+    /**
+     *  DB에 업로드 파일 정보 저장
+     */
     private Map<String, Object> saveFile(MultipartFile mf) {
 
         Map<String, Object> fileMap = new HashMap<String, Object>();
@@ -110,6 +115,9 @@ public class FileController {
         return fileMap;
     }
 
+    /**
+     *  파일업로드 경로에 파일 생성
+     */
     private void createFile(MultipartFile mf, String uploadFileName){
         try {
             mf.transferTo(new File(uploadPath, uploadFileName));
@@ -153,6 +161,9 @@ public class FileController {
         }
     }
 
+    /**
+     *  다운로드 한글파일명 설정
+     */
     private void setKoreanHeader(HttpServletRequest request, HttpServletResponse response, String fileNameExten){
 
         try {
@@ -170,6 +181,9 @@ public class FileController {
         }
     }
 
+    /**
+     *  파일 다운로드 로직
+     */
     private void FileDownload(HttpServletResponse response, File file){
 
         try {
@@ -196,6 +210,9 @@ public class FileController {
         }
     }
 
+    /**
+     *  다운로드 Response 헤더 설정
+     */
     private void setDownloadResponse(HttpServletResponse response, File file){
 
         try {
@@ -210,5 +227,35 @@ public class FileController {
         } catch(Exception e){
             log.error("setDownloadResponse Exception", e);
         }
+    }
+
+    /**
+     *  이미지 데이터 조회 base64(섬네일용)
+     */
+    @RequestMapping(value = "/getImageData", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getImageData(@RequestBody Map<String, Object> fileParamMap) {
+
+        Map<String, Object> resultImageDate = new HashMap<String, Object>();
+
+        try {
+
+            Map<String, Object> fileMap = fileService.getFile(fileParamMap);
+
+            String filePhysicalName = (String) CommonUtil.notValue(fileMap.get("filePhysicalName"), "");
+            String fileExten = (String) CommonUtil.notValue(fileMap.get("fileExten"), "");
+
+            /* 업로드 경로 + 파일명 + 파일확장자*/
+            String path = uploadPath + "/" + filePhysicalName + '.' + fileExten;
+
+            File file = new File(path);
+
+            resultImageDate.put("imageData", CommonUtil.fileToBase64(file));
+
+        } catch (Exception e){
+            log.error("getImageData Exception", e);
+        }
+
+        return resultImageDate;
     }
 }

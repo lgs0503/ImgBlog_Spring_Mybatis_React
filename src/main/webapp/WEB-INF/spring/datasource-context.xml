@@ -6,10 +6,10 @@
 
     <!-- DB 설정 (Oracle)-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="#{dbinfo['db.driver']}"/>
-        <property name="url" value="#{dbinfo['db.url']}"/>
-        <property name="username" value="#{dbinfo['db.username']}"/>
-        <property name="password" value="#{dbinfo['db.password']}"/>
+        <property name="driverClassName" value="#{config['db.driver']}"/>
+        <property name="url" value="#{config['db.url']}"/>
+        <property name="username" value="#{config['db.username']}"/>
+        <property name="password" value="#{config['db.password']}"/>
     </bean>
 
     <!-- My Batis 설정 -->
