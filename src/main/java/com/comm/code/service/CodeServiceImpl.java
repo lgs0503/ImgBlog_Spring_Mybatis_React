@@ -1,13 +1,11 @@
-package com.imgBlog.comm.code.service;
+package com.comm.code.service;
 
 
-import com.imgBlog.comm.code.mapper.CodeMapper;
-import com.imgBlog.comm.code.vo.CodeVO;
-import com.imgBlog.user.mapper.UserMapper;
+import com.comm.code.mapper.CodeMapper;
+import com.comm.code.vo.CodeVO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

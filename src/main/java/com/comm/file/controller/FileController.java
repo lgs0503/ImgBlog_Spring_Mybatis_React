@@ -1,7 +1,7 @@
-package com.imgBlog.comm.file.controller;
+package com.comm.file.controller;
 
-import com.imgBlog.comm.file.service.FileService;
-import com.imgBlog.comm.util.CommonUtil;
+import com.comm.util.CommonUtil;
+import com.comm.file.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;

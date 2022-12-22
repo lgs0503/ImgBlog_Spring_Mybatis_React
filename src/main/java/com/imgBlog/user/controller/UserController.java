@@ -1,7 +1,7 @@
 package com.imgBlog.user.controller;
 
-import com.imgBlog.comm.util.ResponseMessage;
-import com.imgBlog.comm.util.ResponseStatus;
+import com.comm.util.ResponseMessage;
+import com.comm.util.ResponseStatus;
 import com.imgBlog.user.service.UserService;
 import com.imgBlog.user.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class UserController {

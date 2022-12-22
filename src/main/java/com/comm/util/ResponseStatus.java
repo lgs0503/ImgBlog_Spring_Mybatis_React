@@ -1,4 +1,4 @@
-package com.imgBlog.comm.util;
+package com.comm.util;
 
 public enum ResponseStatus {
     CONTINUE(100),

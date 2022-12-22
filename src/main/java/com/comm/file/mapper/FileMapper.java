@@ -1,4 +1,4 @@
-package com.imgBlog.comm.file.mapper;
+package com.comm.file.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 

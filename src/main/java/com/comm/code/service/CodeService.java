@@ -1,6 +1,6 @@
-package com.imgBlog.comm.code.service;
+package com.comm.code.service;
 
-import com.imgBlog.comm.code.vo.CodeVO;
+import com.comm.code.vo.CodeVO;
 
 import java.util.List;
 import java.util.Map;

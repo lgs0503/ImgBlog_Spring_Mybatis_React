@@ -1,6 +1,6 @@
-package com.imgBlog.comm.file.service;
+package com.comm.file.service;
 
-import com.imgBlog.comm.file.mapper.FileMapper;
+import com.comm.file.mapper.FileMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

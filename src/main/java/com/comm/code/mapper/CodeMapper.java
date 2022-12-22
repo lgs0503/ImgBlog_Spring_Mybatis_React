@@ -1,6 +1,6 @@
-package com.imgBlog.comm.code.mapper;
+package com.comm.code.mapper;
 
-import com.imgBlog.comm.code.vo.CodeVO;
+import com.comm.code.vo.CodeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

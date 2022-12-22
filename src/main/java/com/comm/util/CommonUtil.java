@@ -1,4 +1,4 @@
-package com.imgBlog.comm.util;
+package com.comm.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

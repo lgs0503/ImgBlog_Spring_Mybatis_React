@@ -1,4 +1,4 @@
-package com.imgBlog.comm.file.service;
+package com.comm.file.service;
 
 import java.util.Map;
 

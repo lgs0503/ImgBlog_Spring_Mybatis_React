@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.imgBlog.comm.code.mapper.CodeMapper">
+<mapper namespace="com.comm.code.mapper.CodeMapper">
 
     <sql id="codeCondition">
         <where>
@@ -16,7 +16,7 @@
         </where>
     </sql>
 
-    <select id="getCodeList" parameterType="com.imgBlog.comm.code.vo.CodeVO" resultType="java.util.HashMap" >
+    <select id="getCodeList" parameterType="com.comm.code.vo.CodeVO" resultType="java.util.HashMap" >
         SELECT
             CODE_ID,
             CODE_NAME,
@@ -36,13 +36,13 @@
         ORDER SIBLINGS BY CODE_ID
     </select>
 
-    <select id="getCodeListCount" parameterType="com.imgBlog.comm.code.vo.CodeVO" resultType="String">
+    <select id="getCodeListCount" parameterType="com.comm.code.vo.CodeVO" resultType="String">
         SELECT COUNT(*) AS COUNT
         FROM CODE
         <include refid="codeCondition"/>
     </select>
 
-    <select id="getCode" parameterType="com.imgBlog.comm.code.vo.CodeVO" resultType="java.util.HashMap">
+    <select id="getCode" parameterType="com.comm.code.vo.CodeVO" resultType="java.util.HashMap">
         SELECT
             CODE_ID,
             CODE_NAME,
@@ -59,7 +59,7 @@
         WHERE CODE_ID = #{codeId}
     </select>
 
-    <insert id="insertCode" parameterType="com.imgBlog.comm.code.vo.CodeVO">
+    <insert id="insertCode" parameterType="com.comm.code.vo.CodeVO">
         INSERT
         INTO    CODE
         (
@@ -91,7 +91,7 @@
         )
     </insert>
 
-    <update id="updateCode" parameterType="com.imgBlog.comm.code.vo.CodeVO">
+    <update id="updateCode" parameterType="com.comm.code.vo.CodeVO">
         UPDATE  CODE
         SET     CODE_NAME = #{codeName},
                 UPPER_CODE_ID = #{upperCodeId},
@@ -106,7 +106,7 @@
         WHERE   CODE_ID = #{codeId}
     </update>
 
-    <delete id="deleteCode" parameterType="com.imgBlog.comm.code.vo.CodeVO">
+    <delete id="deleteCode" parameterType="com.comm.code.vo.CodeVO">
         DELETE
         FROM    CODE
         WHERE   CODE_ID = #{codeId}

@@ -1,9 +1,9 @@
-package com.imgBlog.comm.code.controller;
+package com.comm.code.controller;
 
-import com.imgBlog.comm.code.service.CodeService;
-import com.imgBlog.comm.code.vo.CodeVO;
-import com.imgBlog.comm.util.ResponseStatus;
-import com.imgBlog.comm.util.ResponseMessage;
+import com.comm.code.service.CodeService;
+import com.comm.code.vo.CodeVO;
+import com.comm.util.ResponseStatus;
+import com.comm.util.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

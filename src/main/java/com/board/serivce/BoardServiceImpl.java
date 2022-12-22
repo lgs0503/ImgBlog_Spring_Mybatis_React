@@ -1,7 +1,6 @@
 package com.board.serivce;
 
 import com.board.mapper.BoardMapper;
-import com.imgBlog.comm.code.mapper.CodeMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

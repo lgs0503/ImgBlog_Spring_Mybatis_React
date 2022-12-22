@@ -1,4 +1,4 @@
-package com.imgBlog.comm.util;
+package com.comm.util;
 
 import java.util.HashMap;
 import java.util.Map;
