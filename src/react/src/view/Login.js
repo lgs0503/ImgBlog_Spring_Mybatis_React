@@ -52,20 +52,39 @@ function Login() {
     }
 
     return (
-        <div className="Login">
-            <div>
-                <div>
-                    <input type={"text"} value={userId} placeholder={'아이디를 입력하시던가'} onChange={(e) => {
-                        setUserId(e.target.value)
-                    }}/>
-                    <input type={"text"} value={password} placeholder={'비밀번호를 입력하시던가'}onChange={(e) => {
-                        setPassword(e.target.value)
-                    }}/>
+        <div className="loginForm">
+            <div clasName="title">
+                <h1>LOGIN</h1>
+            </div>
+            <div className="inputForm">
+                <div className="inputText">
+                    <input
+                        className="inputText"
+                        type={"text"}
+                        value={userId}
+                        placeholder={'아이디'}
+                        onChange={(e) => {
+                            setUserId(e.target.value)
+                        }}
+                    />
                 </div>
-                <div>
-                    <button onClick={() => login()}>로그인</button>
-                    <button onClick={() => registerView()}>회원가입</button>
+                <div className="inputText">
+                    <input
+                        className="inputText"
+                        type={"text"}
+                        value={password}
+                        placeholder={'비밀번호'}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                        }}
+                    />
                 </div>
+            </div>
+            <div className="btnForm">
+                <button className="btn" onClick={() => login()}>로그인</button>
+                <button className="btn" onClick={() => registerView()}>회원가입</button>
+                <button className="btn" >비밀번호찾기</button>
+                <button className="btn" >아이디찾기</button>
             </div>
         </div>
     );
